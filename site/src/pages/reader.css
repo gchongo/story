@@ -1,0 +1,201 @@
+.reader-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-deep);
+}
+
+.reader-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.5rem;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.12);
+  background: rgba(13, 10, 8, 0.95);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.reader-nav__back,
+.reader-nav__btn {
+  color: var(--gold);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.reader-nav__back:hover,
+.reader-nav__btn:hover:not(:disabled) {
+  background: rgba(201, 162, 39, 0.1);
+}
+
+.reader-nav__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.reader-nav__title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.95rem;
+  color: rgba(244, 234, 213, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reader-nav__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reader-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .reader-body {
+    grid-template-columns: 1fr;
+  }
+
+  .reader-body--vernacular .reader-panel--original {
+    border-bottom: none;
+  }
+}
+
+.reader-panel {
+  overflow-y: auto;
+  padding: 2rem clamp(1rem, 3vw, 2.5rem) 3rem;
+  line-height: 2;
+  font-size: 1rem;
+}
+
+.reader-panel--original {
+  background: linear-gradient(180deg, #1e1610 0%, #16110d 100%);
+  border-right: 1px solid rgba(201, 162, 39, 0.1);
+}
+
+.reader-panel--vernacular {
+  background: linear-gradient(180deg, #f7f0e3 0%, #f0e8d8 100%);
+  color: var(--ink);
+}
+
+.reader-panel__label {
+  position: sticky;
+  top: 0;
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  padding: 0.25rem 0.6rem;
+  margin-bottom: 1.5rem;
+  border-radius: 3px;
+  z-index: 1;
+}
+
+.reader-panel--original .reader-panel__label {
+  background: rgba(201, 162, 39, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+.reader-panel--vernacular .reader-panel__label {
+  background: rgba(28, 20, 16, 0.08);
+  color: var(--ink-light);
+  border: 1px solid rgba(28, 20, 16, 0.12);
+}
+
+.reader-block--heading {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.4rem;
+  margin: 1.5rem 0 1rem;
+  text-align: center;
+}
+
+.reader-panel--original .reader-block--heading {
+  color: var(--gold);
+}
+
+.reader-panel--vernacular .reader-block--heading {
+  color: var(--ink);
+}
+
+.reader-block--text {
+  text-indent: 2em;
+  margin-bottom: 0.6rem;
+}
+
+.reader-block--poem {
+  text-align: center;
+  font-style: italic;
+  color: rgba(244, 234, 213, 0.75);
+  margin: 1rem 0;
+  text-indent: 0;
+}
+
+.reader-block--zhipi {
+  margin: 0.8rem 0 0.8rem 1em;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid rgba(201, 162, 39, 0.4);
+  background: rgba(201, 162, 39, 0.06);
+  font-size: 0.88rem;
+  color: rgba(244, 234, 213, 0.7);
+  text-indent: 0;
+}
+
+.reader-panel--vernacular .reader-block--zhipi {
+  border-left-color: #8d6e63;
+  background: rgba(141, 110, 99, 0.08);
+  color: #5d4037;
+}
+
+.reader-block--note {
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  background: rgba(76, 121, 175, 0.1);
+  border: 1px solid rgba(76, 121, 175, 0.25);
+  font-size: 0.88rem;
+  color: #4a6fa5;
+  text-indent: 0;
+}
+
+.reader-block--note::before {
+  content: '📖 读书记 · ';
+  font-weight: 600;
+}
+
+.reader-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  color: rgba(28, 20, 16, 0.4);
+  gap: 0.5rem;
+}
+
+.reader-empty__icon {
+  font-size: 2.5rem;
+  opacity: 0.3;
+}
+
+.reader-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: rgba(244, 234, 213, 0.5);
+}
+
+.reader-single .reader-panel--original {
+  border-right: none;
+}

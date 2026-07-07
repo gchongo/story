@@ -1,0 +1,54 @@
+@page {
+    margin-bottom: 5pt;
+    margin-top: 5pt
+    }
+@font-face {
+    /* 宋体 */
+    font-family: "st";
+    src: local("方正书宋_GBK"), local("FZShuSong-Z01"), local("华文宋体"), local("STSong"), local("SimSun"), local("Songti"), local("Songti SC"), local("Songti TC"), local("宋体"), local("Song"), local("宋体_GB2312"), local("DK-SONGTI"), local("Song S"), local("Song T"), local("STBShusong"), local("TBMincho"), local("HYMyeongJo"), local("明体"), local("明朝")
+    }
+@font-face {
+    /* 黑体 */
+    font-family: "ht";
+    src: local("Source Han Sans CN"), local("Source Han Sans TWHK"), /* 思源黑体 Adobe */ local("Noto Sans S Chinese"), local("Noto Sans T Chinese"), /* 思源黑体 Google */ local("方正兰亭黑_GBK"), local("FZLanTingHei-R-GBK"), local("冬青简体中文"), local("Hiragino Sans GB"), local("微软雅黑"), local("Microsoft Yahei"), local("STHeiti"), local("SimHei"), local("Mying Hei S"), local("Mying Hei T"), local("Heiti SC"), local("Heiti TC"), local("Heiti"), local("Hei"), local("DK-HEITI"), local("黑体"), local("sans-serif")
+    }
+@font-face {
+    /* 标宋 */
+    font-family: "bs";
+    src: local("方正小标宋_GBK"), local("FZXiaoBiaoSong-B05"), local("方正小标宋简体"), local("FZXiaoBiaoSong-B05S"), local("方正小标宋繁体"), local("FZXiaoBiaoSong-B05T"), local("DK-XIAOBIAOSONG"), local("Xiaobiaosong"), local("方正大标宋_GBK"), local("FZDaBiaoSong-B06"), local("方正大标宋简体"), local("FZDaBiaoSong-B06S"), local("方正大标宋繁体"), local("FZDaBiaoSong-B06T"), local("DK-DABIAOSONG"), local("Dabiaosong")
+    }
+@font-face {
+    /* 仿宋 */
+    font-family: "fs";
+    src: local("华文仿宋"), local("STFangsong"), local("DK-FANGSONG"), local("Fangsong"), local("仿宋"), local("仿宋_GB2312"), local("方正仿宋_GBK"), local("FZFangSong-Z02"), local("方正仿宋简体"), local("FZFangSong-Z02S"), local("方正仿宋繁体"), local("FZFangSong-Z02T")
+    }
+@font-face {
+    /* 楷体 */
+    font-family: "kt";
+    src: local("Kaiti"), local("Kaiti SC"), local("Kaiti TC"), local("华文楷体"), local("STKaiti"), local("STKai"), local("Kai"), local("楷体"), local("楷体_GB2312"), local("DK-KAITI"), local("MKai PRC")
+    }
+@font-face {
+    /* 圆体 */
+    font-family: "yt";
+    src: local("方正准圆_GBK"), local("FZZhunYuan-M02"), local("方正准圆简体"), local("FZZhunYuan-M02S"), local("方正准圆繁体"), local("FZZhunYuan-M02T"), local("幼圆"), local("yuan"), local("Yuanti"), local("STYuan"), local("Yuanti SC"), local("Yuanti TC"), local("方正细圆_GBK"), local("FZZhunYuan-M01"), local("方正细圆简体"), local("FZZhunYuan-M01S"), local("方正细圆繁体"), local("FZZhunYuan-M01T"), local("DK-XIHEITI")
+    }
+@font-face {
+    /* 隶书 */
+    font-family: "ls";
+    src: local("方正华隶_GBK"), local("FZHuaLi-M14"), local("方正隶变_GBK"), local("FZLiBian-S02"), local("方正隶变简体"), local("FZLiBian-S02S"), local("方正隶变繁体"), local("FZLiBian-S02T"), local("Libian SC"), local("Libian TC"), local("隶书"), local("华文隶书"), local("STLiti"), local("方正隶书_GBK"), local("FZLiShu-S01"), local("方正隶书简体"), local("FZLiShu-S01S"), local("方正隶书繁体"), local("FZLiShu-S01T")
+    }
+@font-face {
+    /* 清刻本悦宋 */
+    font-family: "ys";
+    src: local("方正清刻本悦宋"), local("FZQingKeBenYueSong"), local("方正清刻本悦宋简体"), local("FZQingKeBenYueSongS-R-GB"), local("方正清刻本悦宋繁体"), local("FZQingKeBenYueSongT-R-GB")
+    }
+@font-face {
+    /* 宋刻本秀楷 */
+    font-family: "xk";
+    src: local("方正宋刻本秀楷简体"), local("FZSongKeBenXiuKaiS-R-GB"), local("方正宋刻本秀楷繁体"), local("FZSongKeBenXiuKaiT-R-GB"), local("方正苏新诗柳楷简体"), local("FZSuXinShiLiuKaiS-R-GB"), local("方正苏新诗柳楷繁体"), local("FZSuXinShiLiuKaiT-R-GB")
+    }
+@font-face {
+    /* 超大字符集 */
+    font-family: "ExtB";
+    src: local("Sun-ExtB"), local("SimSun-ExtB"), local("MingLiU-ExtB"), local("PMingLiU-ExtB"), local("MingLiU_HKSCS-ExtB")
+    }

@@ -1,0 +1,16 @@
+{
+  "id": "hongloumeng",
+  "title": "红楼梦",
+  "subtitle": "脂本精校",
+  "author": "曹雪芹",
+  "dynasty": "清",
+  "path": "红楼梦（脂本精校）",
+  "chapters": 120,
+  "hasVernacular": true,
+  "vernacularProgress": 1,
+  "spineColor": "#8B2500",
+  "accentColor": "#C9A227",
+  "description": "满纸荒唐言，一把辛酸泪。都云作者痴，谁解其中味。",
+  "vernacularCount": 1,
+  "chapterCount": 121
+}

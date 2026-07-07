@@ -1,0 +1,194 @@
+.calibre {
+    display: block;
+    font-size: 1em;
+    line-height: 1.2;
+    text-align: justify;
+    margin: 0 5pt;
+    padding: 0
+    }
+.calibre1 {
+    font-weight: bold
+    }
+.calibre2 {
+    display: block;
+    line-height: 1.2
+    }
+.calibre3 {
+    display: block
+    }
+.calibre4 {
+    font-family: ExtB
+    }
+.calibre5 {
+    display: block;
+    text-indent: 0;
+    margin: 1em 0 0
+    }
+.content {
+    display: block;
+    text-indent: 2em;
+    margin: 1em 0 0;
+    padding: 3em 0 2em
+    }
+.content1 {
+    display: block;
+    text-indent: 2em;
+    margin: 1em 0 0
+    }
+.content2 {
+    display: block;
+    text-indent: 2em;
+    margin: 4em 0 0
+    }
+.content3 {
+    display: block;
+    text-indent: 2em;
+    margin: 1.5em 0 0
+    }
+.content4 {
+    display: block;
+    text-indent: 0;
+    margin: 1.5em 0 0
+    }
+.huimu {
+    float: left;
+    font-family: "方正兰亭特黑长_GBK", "FZLanTingHei-HN-GBK", "ls", "DK-XIHEITI", "ht";
+    font-weight: normal;
+    line-height: 1.2;
+    text-shadow: 0 0 0.1em #666;
+    padding: 0.5em 0.5em 0 0
+    }
+.info {
+    display: block;
+    font-family: "DK-XIHEITI", "方正兰亭刊黑_GBK", "FZLanTingKanHei-R-GBK", "yt";
+    text-indent: 2em;
+    margin: 1em 0 0
+    }
+.mulu {
+    display: block;
+    font-family: "ht";
+    font-size: 1.25em;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    text-indent: 0;
+    margin: 1em 0 1.5em
+    }
+.mulu1 {
+    display: block;
+    font-family: "DK-XIHEITI";
+    font-size: 0.875em;
+    line-height: 1.2;
+    text-indent: 0;
+    margin: 0.5em 0 0 1em
+    }
+.pi {
+    height: auto;
+    vertical-align: -0.15em;
+    width: 2em
+    }
+.pi1 {
+    height: auto;
+    line-height: 1.2;
+    vertical-align: -0.15em;
+    width: 2em
+    }
+.pz {
+    font-family: "fs", "DK-XIHEITI", "方正兰亭刊黑_GBK", "FZLanTingKanHei-R-GBK";
+    font-size: 0.75em;
+    line-height: 1.2;
+    text-shadow: none
+    }
+.shi {
+    display: block;
+    font-family: "xk", "kt";
+    text-indent: 2em;
+    text-shadow: 0 0 0.125em #AAA;
+    margin: 1.5em 0 0 2em
+    }
+.shi1 {
+    display: block;
+    font-family: "xk", "kt";
+    text-indent: 2em;
+    text-shadow: 0 0 0.125em #AAA;
+    margin: 0.5em 0 0 2em
+    }
+.shi2 {
+    display: block;
+    font-family: "xk", "kt";
+    text-indent: 2em;
+    text-shadow: 0 0 0.125em #AAA;
+    margin: 4em 0 0 2em
+    }
+.sign {
+    display: block;
+    font-family: "kt";
+    text-align: right;
+    text-indent: 0;
+    margin: 2em 0 0
+    }
+.title {
+    display: block;
+    font-family: "ys", "bs", "ht";
+    font-size: 1.125em;
+    font-weight: bold;
+    line-height: 1.2;
+    text-shadow: 0 0 0.1em #AAA;
+    margin: 0 -2em 3em;
+    border-bottom: #666 double 5px;
+    padding: 0.2em 2em
+    }
+.wen {
+    display: block;
+    font-family: "xk", "kt";
+    line-height: 1.4;
+    text-indent: 2em;
+    text-shadow: 0 0 0.125em #AAA;
+    margin: 1.5em 0 0 2em
+    }
+.wen1 {
+    display: block;
+    font-family: "xk", "kt";
+    line-height: 1.4;
+    text-indent: 2em;
+    text-shadow: 0 0 0.125em #AAA;
+    margin: 4em 0 0 2em
+    }
+.wen2 {
+    display: block;
+    font-family: "xk", "kt";
+    line-height: 1.4;
+    text-indent: 2em;
+    text-shadow: 0 0 0.125em #AAA;
+    margin: 0.5em 0 0 2em
+    }
+.zi {
+    height: auto;
+    vertical-align: -0.15em;
+    width: 1em
+    }
+.zi1 {
+    height: auto;
+    line-height: 1.2;
+    vertical-align: -0.15em;
+    width: 1em
+    }
+.zp {
+    font-family: "ht"
+    }
+.zp1 {
+    display: block;
+    font-family: "fs", "DK-XIHEITI", "方正兰亭刊黑_GBK", "FZLanTingKanHei-R-GBK", "yt";
+    font-size: 1em;
+    line-height: 1.2;
+    text-indent: 2em;
+    margin: 1em 0 0
+    }
+.zp2 {
+    display: block;
+    font-family: "fs", "DK-XIHEITI", "方正兰亭刊黑_GBK", "FZLanTingKanHei-R-GBK", "yt";
+    font-size: 1em;
+    line-height: 1.2;
+    text-indent: 2em;
+    margin: 4em 0 0
+    }

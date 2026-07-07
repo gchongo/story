@@ -1,0 +1,17 @@
+# 部署包说明
+
+## 目录
+- web/          → 上传到网站根目录（如 /www/wwwroot/read.howhy.day/）
+- content/      → 上传到 /www/wwwroot/story-content/
+- nginx-snippet.conf → 粘贴到 aaPanel 站点 Nginx 配置
+
+## aaPanel 步骤
+1. 网站 → 添加站点 → 域名 read.howhy.day
+2. 将 web/ 内所有文件上传到站点根目录
+3. 将 content/ 上传到 /www/wwwroot/story-content/
+4. 站点设置 → 配置文件 → 加入 nginx-snippet.conf 内容
+5. SSL → Let's Encrypt 申请证书（推荐）
+6. 重载 Nginx
+
+## 更新内容
+本地运行 npm run deploy 重新打包，覆盖上传 web/ 和 content/ 即可。
