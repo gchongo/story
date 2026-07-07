@@ -3,7 +3,8 @@
 古典名著阅读站：3D 书架 + 原文 / 白话 / 读书记对照。
 
 - 仓库：<https://github.com/gchongo/story>
-- 建议域名：`read.howhy.day`
+- 站点：`read.howhy.day`
+- **服务器目录：`/www/wwwroot/read.howhy.day`**（Git 仓库与网站根目录合一）
 
 ## 本地开发
 
@@ -13,55 +14,50 @@ npm install
 npm run dev
 ```
 
-## 打包上传（手动部署）
+## aaPanel 部署（推荐）
 
-```bash
-cd site
-npm run deploy
-# 产物在 site/deploy/output/
-#   web/     → 网站根目录
-#   content/ → /www/wwwroot/story-content/
-```
+### 1. 建站
 
-## aaPanel + GitHub 部署
+- 域名：`read.howhy.day`
+- 根目录：**`/www/wwwroot/read.howhy.day`**
 
-### 1. 服务器首次初始化
+### 2. 首次克隆 + 构建
 
 ```bash
 cd /www/wwwroot
-git clone https://github.com/gchongo/story.git story-src
-# 安装 Node.js 18+（aaPanel → 软件商店 → Node 版本管理器）
-bash story-src/site/deploy/server-deploy.sh
+git clone https://github.com/gchongo/story.git read.howhy.day
+# aaPanel 安装 Node.js 18+
+bash read.howhy.day/site/deploy/server-deploy.sh
 ```
 
-### 2. aaPanel 建站
+### 3. Nginx
 
-- 域名：`read.howhy.day`
-- 根目录：`/www/wwwroot/read.howhy.day`
-- 在站点 Nginx 配置中加入 `site/deploy/nginx-snippet.conf`
-- 将其中 `alias` 改为：
+站点配置文件中加入 `site/deploy/nginx-snippet.conf` 内容（`/content/` 已指向同目录）。
 
-```nginx
-location /content/ {
-    alias /www/wwwroot/story-src/;
-    charset utf-8;
-    default_type text/plain;
-}
-```
-
-### 3. 以后更新
+### 4. 以后更新
 
 ```bash
-bash /www/wwwroot/story-src/site/deploy/server-deploy.sh
+bash /www/wwwroot/read.howhy.day/site/deploy/server-deploy.sh
 ```
 
-或在 aaPanel **Git 部署** 里绑定仓库，Webhook 触发上述脚本。
+## 服务器目录结构
 
-## 目录说明
+```
+/www/wwwroot/read.howhy.day/
+├── index.html          ← 构建产物（dist 同步到此）
+├── assets/
+├── data/
+├── books.json
+├── 红楼梦（脂本精校）/
+├── 西游记（李卓吾批评本）/
+└── site/               ← 源码（Nginx 已禁止外网访问）
+```
 
-| 路径 | 说明 |
-|------|------|
-| `books.json` | 书库索引 |
-| `红楼梦（脂本精校）/` | 原文 + 白话 |
-| `西游记（李卓吾批评本）/` | 原文 |
-| `site/` | 前端项目 |
+## 手动打包上传
+
+```bash
+cd site && npm run deploy
+```
+
+- `deploy/output/web/` 内文件 → 上传到 `/www/wwwroot/read.howhy.day/`
+- `deploy/output/content/` 内书籍目录 → **合并上传到同一目录**（不是单独 story-content）

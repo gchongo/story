@@ -41,27 +41,23 @@ fs.copyFileSync(
 const readme = `# 部署包说明
 
 ## 目录
-- web/          → 上传到网站根目录（如 /www/wwwroot/read.howhy.day/）
-- content/      → 上传到 /www/wwwroot/story-content/
-- nginx-snippet.conf → 粘贴到 aaPanel 站点 Nginx 配置
+- web/          → /www/wwwroot/read.howhy.day/
+- content/      → 同样上传到 /www/wwwroot/read.howhy.day/（与 web 合并）
+- nginx-snippet.conf → aaPanel 站点 Nginx 配置
 
 ## aaPanel 步骤
-1. 网站 → 添加站点 → 域名 read.howhy.day
-2. 将 web/ 内所有文件上传到站点根目录
-3. 将 content/ 上传到 /www/wwwroot/story-content/
-4. 站点设置 → 配置文件 → 加入 nginx-snippet.conf 内容
-5. SSL → Let's Encrypt 申请证书（推荐）
-6. 重载 Nginx
-
-## 更新内容
-本地运行 npm run deploy 重新打包，覆盖上传 web/ 和 content/ 即可。
+1. 站点根目录设为 /www/wwwroot/read.howhy.day
+2. 上传 web/ 内所有文件到站点根目录
+3. 上传 content/ 内的书籍文件夹到同一根目录
+4. 粘贴 nginx-snippet.conf 到站点配置
+5. 重载 Nginx
 `
 fs.writeFileSync(path.join(outRoot, 'DEPLOY.txt'), readme)
 
 console.log('')
 console.log('✓ 部署包已生成:', outRoot)
-console.log('  web/     → 站点根目录')
-console.log('  content/ → /www/wwwroot/story-content/')
+console.log('  web/     → /www/wwwroot/read.howhy.day/')
+console.log('  content/ → 同上（合并到站点根目录）')
 console.log('')
 
 function copyDir(src, dest) {

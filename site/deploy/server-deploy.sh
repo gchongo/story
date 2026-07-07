@@ -1,29 +1,30 @@
 #!/bin/bash
 # aaPanel 服务器部署脚本
-# 用法（SSH 登录服务器后）：
-#   bash /www/wwwroot/story-src/site/deploy/server-deploy.sh
+# 网站根目录（Git 仓库 + 站点）: /www/wwwroot/read.howhy.day
 #
-# 首次请先：
-#   cd /www/wwwroot && git clone https://github.com/gchongo/story.git story-src
+# 首次初始化：
+#   cd /www/wwwroot
+#   rm -rf read.howhy.day   # 若是空站点目录，先备份
+#   git clone https://github.com/gchongo/story.git read.howhy.day
+#   bash read.howhy.day/site/deploy/server-deploy.sh
 
 set -euo pipefail
 
-REPO_DIR="${REPO_DIR:-/www/wwwroot/story-src}"
-WEB_DIR="${WEB_DIR:-/www/wwwroot/read.howhy.day}"
-CONTENT_ALIAS="${CONTENT_ALIAS:-/www/wwwroot/story-src}"
+SITE_ROOT="${SITE_ROOT:-/www/wwwroot/read.howhy.day}"
 
 echo "→ 拉取最新代码…"
-cd "$REPO_DIR"
+cd "$SITE_ROOT"
 git pull origin main
 
 echo "→ 安装依赖并构建…"
-cd "$REPO_DIR/site"
+cd "$SITE_ROOT/site"
 npm ci
 npm run build
 
-echo "→ 发布前端到 $WEB_DIR …"
-mkdir -p "$WEB_DIR"
-rsync -a --delete "$REPO_DIR/site/dist/" "$WEB_DIR/"
+echo "→ 发布前端到站点根目录…"
+rsync -a --delete "$SITE_ROOT/site/dist/" "$SITE_ROOT/"
 
-echo "→ 内容目录：Nginx /content/ 应 alias 到 $CONTENT_ALIAS"
-echo "✓ 部署完成。请重载 Nginx 后访问站点。"
+echo "✓ 部署完成"
+echo "  站点根目录: $SITE_ROOT"
+echo "  章节 txt:   $SITE_ROOT/红楼梦（脂本精校）/ …"
+echo "  请确认 Nginx 已配置 /content/ → alias $SITE_ROOT/"
