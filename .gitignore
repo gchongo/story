@@ -1,0 +1,15 @@
+# 依赖与构建产物
+site/node_modules/
+site/dist/
+site/deploy/output/
+site/tsconfig.tsbuildinfo
+
+# EPUB 解压临时目录
+**/_epub_temp/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
