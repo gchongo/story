@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { fetchBooks } from '../api'
 import type { Book, BookAnimationPhase } from '../types'
 import { BookSpine, EmptySlot, FloatingBook } from '../components/Bookshelf'
@@ -24,7 +25,7 @@ export function BookshelfPage() {
     if (returning) {
       sessionStorage.removeItem(RETURN_KEY)
       setReturningId(returning)
-      const t = setTimeout(() => setReturningId(null), 900)
+      const t = setTimeout(() => setReturningId(null), 1200)
       return () => clearTimeout(t)
     }
   }, [])
@@ -36,12 +37,12 @@ export function BookshelfPage() {
       setOriginRect(rect)
       setPhase('pulling')
 
-      setTimeout(() => setPhase('opening'), 700)
-      setTimeout(() => setPhase('open'), 1700)
+      setTimeout(() => setPhase('opening'), 1000)
+      setTimeout(() => setPhase('open'), 2400)
       setTimeout(() => {
         sessionStorage.setItem('story-last-book', book.id)
         navigate(`/book/${book.id}`)
-      }, 2400)
+      }, 3400)
     },
     [phase, navigate]
   )
@@ -52,48 +53,71 @@ export function BookshelfPage() {
     <div className="bookshelf-page">
       <div className="bookshelf-page__lamp" />
       <div className="bookshelf-page__ambient" />
+      <div className="bookshelf-page__vignette" />
       <div className="bookshelf-page__particles">
-        {Array.from({ length: 24 }).map((_, i) => (
+        {Array.from({ length: 36 }).map((_, i) => (
           <span
             key={i}
             className="particle"
             style={{
-              left: `${10 + Math.random() * 80}%`,
-              bottom: `${20 + Math.random() * 40}%`,
-              animationDuration: `${6 + Math.random() * 8}s`,
-              animationDelay: `${Math.random() * 5}s`,
+              left: `${5 + Math.random() * 90}%`,
+              bottom: `${10 + Math.random() * 50}%`,
+              animationDuration: `${8 + Math.random() * 10}s`,
+              animationDelay: `${Math.random() * 6}s`,
             }}
           />
         ))}
       </div>
 
-      <header className="bookshelf-page__header">
+      <motion.header
+        className="bookshelf-page__header"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h1 className="bookshelf-page__title">古典书架</h1>
         <p className="bookshelf-page__subtitle">无版权名著 · 原文对照 · 读书记</p>
-      </header>
+      </motion.header>
 
       <section className="bookshelf-scene">
-        <div className="bookshelf-unit">
-          <div className="shelf-frame">
-            <div className="shelf-books">
-              {books.map((book, i) => (
-                <BookSpine
-                  key={book.id}
-                  book={book}
-                  index={i}
-                  isActive={activeBook?.id === book.id && phase !== 'idle'}
-                  isReturning={returningId === book.id}
-                  onSelect={handleSelect}
-                />
-              ))}
-              {Array.from({ length: emptySlots }).map((_, i) => (
-                <EmptySlot key={`empty-${i}`} />
-              ))}
+        <motion.div
+          className="bookshelf-wall"
+          initial={{ opacity: 0, y: 60, rotateX: 15 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="bookshelf-cabinet">
+            <div className="shelf-crown" />
+            <div className="shelf-body">
+              <div className="shelf-side shelf-side--left" />
+              <div className="shelf-main">
+                <div className="shelf-frame">
+                  <div className="shelf-frame__light" />
+                  <div className="shelf-books">
+                    {books.map((book, i) => (
+                      <BookSpine
+                        key={book.id}
+                        book={book}
+                        index={i}
+                        isActive={activeBook?.id === book.id && phase !== 'idle'}
+                        isReturning={returningId === book.id}
+                        onSelect={handleSelect}
+                      />
+                    ))}
+                    {Array.from({ length: emptySlots }).map((_, i) => (
+                      <EmptySlot key={`empty-${i}`} />
+                    ))}
+                  </div>
+                  <div className="shelf-plank" />
+                </div>
+              </div>
+              <div className="shelf-side shelf-side--right" />
             </div>
-            <div className="shelf-plank" />
+            <div className="shelf-base" />
           </div>
-        </div>
-        <p className="bookshelf-page__hint">点击书脊取书阅读</p>
+          <div className="bookshelf-floor" />
+        </motion.div>
+        <p className="bookshelf-page__hint">点击书脊 · 取书阅读</p>
       </section>
 
       {activeBook && phase !== 'idle' && (

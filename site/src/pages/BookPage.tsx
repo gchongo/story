@@ -33,9 +33,9 @@ export function BookPage() {
   const handleBack = () => {
     if (closingPhase !== 'idle') return
     setClosingPhase('closing')
-    setTimeout(() => setClosingPhase('returning'), 500)
+    setTimeout(() => setClosingPhase('returning'), 900)
     if (bookId) sessionStorage.setItem(RETURN_KEY, bookId)
-    setTimeout(() => navigate('/'), 1400)
+    setTimeout(() => navigate('/'), 2200)
   }
 
   if (!meta) {

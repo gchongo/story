@@ -2,7 +2,8 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(ellipse at 50% 0%, #2a1a10 0%, var(--bg-deep) 55%);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 100%, #1a0f08 0%, #0a0604 50%, #030201 100%);
 }
 
 .bookshelf-page__ambient {
@@ -10,8 +11,16 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 20% 80%, rgba(201, 162, 39, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 80% 20%, rgba(139, 37, 0, 0.08) 0%, transparent 35%);
+    radial-gradient(ellipse at 50% 35%, rgba(255, 180, 80, 0.14) 0%, transparent 55%),
+    radial-gradient(circle at 15% 70%, rgba(139, 37, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 85% 60%, rgba(26, 77, 110, 0.08) 0%, transparent 35%);
+}
+
+.bookshelf-page__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.65) 100%);
 }
 
 .bookshelf-page__particles {
@@ -23,11 +32,12 @@
 
 .particle {
   position: absolute;
-  width: 3px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
   background: var(--gold);
   border-radius: 50%;
   opacity: 0;
+  box-shadow: 0 0 6px var(--gold);
   animation: float-dust linear infinite;
 }
 
@@ -36,15 +46,15 @@
     opacity: 0;
     transform: translateY(0) translateX(0);
   }
-  10% {
-    opacity: 0.6;
+  15% {
+    opacity: 0.8;
   }
-  90% {
-    opacity: 0.3;
+  85% {
+    opacity: 0.4;
   }
   100% {
     opacity: 0;
-    transform: translateY(-120px) translateX(20px);
+    transform: translateY(-180px) translateX(30px);
   }
 }
 
@@ -52,22 +62,25 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 3rem 1.5rem 1rem;
+  padding: clamp(2rem, 5vh, 4rem) 1.5rem 0.5rem;
 }
 
 .bookshelf-page__title {
   font-family: 'Ma Shan Zheng', cursive;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(3rem, 8vw, 5.5rem);
   color: var(--gold);
-  text-shadow: 0 0 40px var(--glow), 0 2px 4px rgba(0, 0, 0, 0.8);
-  letter-spacing: 0.15em;
+  text-shadow:
+    0 0 60px rgba(201, 162, 39, 0.5),
+    0 0 120px rgba(201, 162, 39, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.2em;
 }
 
 .bookshelf-page__subtitle {
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
-  color: rgba(244, 234, 213, 0.55);
-  letter-spacing: 0.3em;
+  margin-top: 0.8rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: rgba(244, 234, 213, 0.5);
+  letter-spacing: 0.45em;
 }
 
 .bookshelf-scene {
@@ -76,27 +89,80 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem 4rem;
-  perspective: 1200px;
+  padding: clamp(1rem, 3vh, 2rem) 1rem clamp(3rem, 8vh, 6rem);
+  perspective: 1600px;
 }
 
-.bookshelf-unit {
-  position: relative;
-  width: min(900px, 92vw);
+.bookshelf-wall {
+  width: min(1200px, 96vw);
   transform-style: preserve-3d;
+}
+
+.bookshelf-cabinet {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(4deg);
+}
+
+.shelf-crown {
+  height: 28px;
+  margin: 0 12px;
+  background: linear-gradient(180deg, #5c3d28 0%, #3d2818 100%);
+  border-radius: 6px 6px 0 0;
+  box-shadow:
+    0 -2px 8px rgba(201, 162, 39, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.08);
+  border: 2px solid #6b4423;
+  border-bottom: none;
+}
+
+.shelf-crown::after {
+  content: '';
+  display: block;
+  height: 6px;
+  margin: 8px 20px 0;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity: 0.5;
+}
+
+.shelf-body {
+  display: flex;
+  transform-style: preserve-3d;
+}
+
+.shelf-side {
+  width: 28px;
+  background: linear-gradient(90deg, #2a1810, #4a2f1f, #3d2818);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+  border: 2px solid #5c3d28;
+}
+
+.shelf-side--left {
+  border-radius: 8px 0 0 8px;
+  border-right: none;
+}
+
+.shelf-side--right {
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+}
+
+.shelf-main {
+  flex: 1;
+  min-width: 0;
 }
 
 .shelf-frame {
   position: relative;
-  background: linear-gradient(180deg, var(--wood-mid) 0%, var(--wood-dark) 100%);
-  border: 3px solid var(--wood-light);
-  border-radius: 4px;
+  background:
+    linear-gradient(180deg, #5c3d28 0%, #3d2818 40%, #2a1810 100%);
+  border-left: 2px solid #6b4423;
+  border-right: 2px solid #6b4423;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2rem) 0.6rem;
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.4);
-  padding: 1.5rem 1.2rem 0.8rem;
-  transform: rotateX(2deg);
+    inset 0 0 80px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.06),
+    0 30px 80px rgba(0, 0, 0, 0.7);
   transform-style: preserve-3d;
 }
 
@@ -104,32 +170,61 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 40px,
-    rgba(0, 0, 0, 0.03) 40px,
-    rgba(0, 0, 0, 0.03) 41px
-  );
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(0, 0, 0, 0.04) 60px,
+      rgba(0, 0, 0, 0.04) 61px
+    );
   pointer-events: none;
-  border-radius: 2px;
+}
+
+.shelf-frame__light {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 120px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 200, 120, 0.18) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .shelf-plank {
-  height: 14px;
-  background: linear-gradient(180deg, var(--wood-light), var(--wood-mid));
-  border-radius: 2px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  margin-top: 0.5rem;
+  height: 22px;
+  background: linear-gradient(180deg, #7a5234 0%, #4a2f1f 50%, #3d2818 100%);
+  border-radius: 0 0 4px 4px;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  margin-top: 0.3rem;
+}
+
+.shelf-base {
+  height: 16px;
+  margin: 0 8px;
+  background: linear-gradient(180deg, #4a2f1f, #2a1810);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+}
+
+.bookshelf-floor {
+  height: 80px;
+  margin-top: -4px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(20px);
+  transform: scaleX(0.9);
 }
 
 .shelf-books {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(0.6rem, 2vw, 1.4rem);
-  min-height: 220px;
-  padding-bottom: 0.3rem;
+  gap: clamp(0.8rem, 2.5vw, 2rem);
+  min-height: clamp(260px, 38vh, 340px);
+  padding-bottom: 0.5rem;
   transform-style: preserve-3d;
 }
 
@@ -141,99 +236,147 @@
 
 .book-spine {
   position: relative;
-  width: clamp(52px, 8vw, 72px);
-  height: clamp(180px, 28vw, 210px);
+  width: clamp(64px, 9vw, 88px);
+  height: clamp(240px, 36vh, 300px);
   transform-style: preserve-3d;
   cursor: pointer;
   transform-origin: bottom center;
-  transition: filter 0.3s;
 }
 
-.book-spine:hover:not(.book-spine--active) {
-  filter: brightness(1.15);
+.book-spine__pages-edge {
+  position: absolute;
+  right: -6px;
+  top: 4px;
+  bottom: 4px;
+  width: 12px;
+  background: linear-gradient(90deg, #e8dcc8, #f5eed8, #e8dcc8);
+  border-radius: 0 2px 2px 0;
+  transform: translateZ(-4px);
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.3);
 }
 
 .book-spine__face {
   position: absolute;
   inset: 0;
-  border-radius: 3px 6px 6px 3px;
+  border-radius: 4px 8px 8px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem 0.4rem;
+  padding: 1.2rem 0.5rem;
   backface-visibility: hidden;
   box-shadow:
-    2px 0 8px rgba(0, 0, 0, 0.4),
-    inset -2px 0 6px rgba(0, 0, 0, 0.2),
-    inset 2px 0 4px rgba(255, 255, 255, 0.1);
+    4px 0 16px rgba(0, 0, 0, 0.5),
+    inset -3px 0 8px rgba(0, 0, 0, 0.25),
+    inset 3px 0 6px rgba(255, 255, 255, 0.12);
 }
 
-.book-spine__face--front {
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.25) 0%, transparent 15%, transparent 85%, rgba(255, 255, 255, 0.08) 100%);
+.book-spine__ornament {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 8px;
+  right: 8px;
+  border: 1px solid;
+  border-radius: 2px;
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 .book-spine__title {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   font-family: 'Ma Shan Zheng', cursive;
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .book-spine__author {
   writing-mode: vertical-rl;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.55);
-  margin-top: 0.8rem;
-  letter-spacing: 0.1em;
+  margin-top: 1rem;
+  letter-spacing: 0.15em;
+}
+
+.book-spine__seal {
+  position: absolute;
+  bottom: 16px;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  transform: rotate(8deg);
+}
+
+.book-spine__top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  transform: rotateX(90deg) translateZ(5px);
+  transform-origin: top;
+  border-radius: 2px;
 }
 
 .book-spine__shadow {
   position: absolute;
-  bottom: -8px;
-  left: 10%;
-  width: 80%;
-  height: 12px;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
-  transform: rotateX(90deg);
+  bottom: -12px;
+  left: 5%;
+  width: 90%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+  transform: rotateX(90deg) translateZ(-10px);
   pointer-events: none;
 }
 
 .book-spine--empty {
-  width: clamp(52px, 8vw, 72px);
-  height: clamp(180px, 28vw, 210px);
-  border: 2px dashed rgba(201, 162, 39, 0.2);
-  border-radius: 4px;
+  width: clamp(64px, 9vw, 88px);
+  height: clamp(240px, 36vh, 300px);
+  border: 2px dashed rgba(201, 162, 39, 0.15);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(201, 162, 39, 0.35);
-  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.book-spine--empty span {
   writing-mode: vertical-rl;
+  color: rgba(201, 162, 39, 0.3);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
 }
 
 .bookshelf-page__hint {
-  margin-top: 2rem;
+  margin-top: clamp(2rem, 4vh, 3rem);
   text-align: center;
-  color: rgba(244, 234, 213, 0.4);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-  animation: pulse-hint 3s ease-in-out infinite;
+  color: rgba(244, 234, 213, 0.35);
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  animation: pulse-hint 4s ease-in-out infinite;
 }
 
 @keyframes pulse-hint {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.35;
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.65;
   }
 }
 
+/* ===== 浮动书本 ===== */
 .floating-book-overlay {
   position: fixed;
   inset: 0;
@@ -242,94 +385,177 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1400px;
+  perspective: 2000px;
+}
+
+.floating-book-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(10, 6, 4, 0.75) 0%, rgba(0, 0, 0, 0.95) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.floating-book-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .floating-book {
   position: relative;
   transform-style: preserve-3d;
-  width: min(320px, 70vw);
-  height: min(440px, 75vh);
+  width: min(420px, 78vw);
+  height: min(560px, 72vh);
+  z-index: 2;
 }
 
-.floating-book__cover {
+.floating-book__back {
   position: absolute;
   inset: 0;
-  border-radius: 4px 12px 12px 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  backface-visibility: hidden;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.7),
-    inset 0 0 30px rgba(0, 0, 0, 0.2);
+  border-radius: 6px 16px 16px 6px;
+  transform: translateZ(-20px);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+}
+
+.floating-book__spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  transform: rotateY(-90deg) translateX(-12px);
   transform-origin: left center;
+  border-radius: 4px 0 0 4px;
 }
 
-.floating-book__cover-title {
-  font-family: 'Ma Shan Zheng', cursive;
-  font-size: clamp(2rem, 5vw, 3rem);
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.2em;
-}
-
-.floating-book__cover-sub {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.2em;
-}
-
-.floating-book__cover-desc {
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  max-width: 200px;
+.floating-book__pages-stack {
+  position: absolute;
+  inset: 6px 0 6px 20px;
+  transform-style: preserve-3d;
+  transform: translateZ(-8px);
 }
 
 .floating-book__pages {
   position: absolute;
-  inset: 4px 0 4px 8px;
-  background: var(--paper);
-  border-radius: 2px 8px 8px 2px;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
-  transform-origin: left center;
+  inset: 0;
+  background: linear-gradient(90deg, #e8dcc8, #f7f0e3 8%, #f7f0e3 92%, #e8dcc8);
+  border-radius: 2px 12px 12px 2px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.06);
 }
 
 .floating-book__page-flip {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, var(--paper-shadow), var(--paper));
-  border-radius: 2px 8px 8px 2px;
+  background: linear-gradient(90deg, #ddd0b8, #f7f0e3 15%, #f7f0e3);
+  border-radius: 2px 12px 12px 2px;
   transform-origin: left center;
   backface-visibility: hidden;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 6px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.floating-book__cover {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px 18px 18px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  backface-visibility: hidden;
+  box-shadow:
+    0 50px 120px rgba(0, 0, 0, 0.85),
+    inset 0 0 40px rgba(0, 0, 0, 0.25),
+    inset -4px 0 12px rgba(255, 255, 255, 0.05);
+  transform-origin: left center;
+}
+
+.floating-book__cover-frame {
+  position: absolute;
+  inset: 20px;
+  border: 2px solid;
+  border-radius: 4px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.floating-book__cover-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.25em;
+}
+
+.floating-book__cover-sub {
+  margin-top: 1.2rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.3em;
+}
+
+.floating-book__cover-desc {
+  margin-top: 2.5rem;
+  font-size: 0.95rem;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  max-width: 240px;
+}
+
+.floating-book__cover-seal {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border: 2px solid;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.2rem;
+  transform: rotate(-12deg);
+  opacity: 0.8;
 }
 
 .page-flip-lines {
-  padding: 2rem 1.5rem;
-  opacity: 0.3;
+  padding: 2.5rem 2rem;
+  opacity: 0.25;
 }
 
 .page-flip-lines span {
   display: block;
-  height: 4px;
+  height: 5px;
   background: var(--ink-light);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   border-radius: 2px;
 }
 
 .page-flip-lines span:nth-child(odd) {
-  width: 90%;
+  width: 92%;
 }
 
 .page-flip-lines span:nth-child(even) {
-  width: 75%;
+  width: 78%;
+}
+
+.floating-book__sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
 }
 
 .bookshelf-page__lamp {
@@ -337,11 +563,11 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(255, 200, 100, 0.12) 0%, transparent 70%);
+  width: min(800px, 90vw);
+  height: 400px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 190, 100, 0.2) 0%, transparent 65%);
   pointer-events: none;
-  animation: lamp-flicker 8s ease-in-out infinite;
+  animation: lamp-flicker 10s ease-in-out infinite;
 }
 
 @keyframes lamp-flicker {
@@ -349,13 +575,23 @@
   100% {
     opacity: 1;
   }
-  50% {
-    opacity: 0.85;
+  48% {
+    opacity: 0.88;
   }
-  52% {
+  50% {
     opacity: 1;
   }
-  54% {
-    opacity: 0.9;
+  52% {
+    opacity: 0.92;
+  }
+}
+
+@media (max-width: 640px) {
+  .shelf-side {
+    width: 14px;
+  }
+
+  .shelf-crown {
+    height: 18px;
   }
 }
