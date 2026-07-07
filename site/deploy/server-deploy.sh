@@ -1,12 +1,5 @@
 #!/bin/bash
-# aaPanel 服务器部署脚本
-# 网站根目录（Git 仓库 + 站点）: /www/wwwroot/read.howhy.day
-#
-# 首次初始化：
-#   cd /www/wwwroot
-#   rm -rf read.howhy.day   # 若是空站点目录，先备份
-#   git clone https://github.com/gchongo/story.git read.howhy.day
-#   bash read.howhy.day/site/deploy/server-deploy.sh
+# 网站根目录: /www/wwwroot/read.howhy.day
 
 set -euo pipefail
 
@@ -22,9 +15,26 @@ npm ci
 npm run build
 
 echo "→ 发布前端到站点根目录…"
-rsync -a --delete "$SITE_ROOT/site/dist/" "$SITE_ROOT/"
+# dist 位于 site/dist/ 内，直接 rsync 到父目录会触发 "file has vanished"
+STAGING="$(mktemp -d)"
+rsync -a "$SITE_ROOT/site/dist/" "$STAGING/"
+rsync -a "$STAGING/" "$SITE_ROOT/"
+rm -rf "$STAGING"
+
+echo "→ 修正权限（aaPanel 一般为 www:www）…"
+if id www &>/dev/null; then
+  chown -R www:www "$SITE_ROOT"
+elif id www-data &>/dev/null; then
+  chown -R www-data:www-data "$SITE_ROOT"
+fi
+find "$SITE_ROOT" -type d -exec chmod 755 {} \;
+find "$SITE_ROOT" -type f -exec chmod 644 {} \;
+
+if [[ ! -f "$SITE_ROOT/index.html" ]]; then
+  echo "✗ 错误：$SITE_ROOT/index.html 不存在，构建可能失败"
+  exit 1
+fi
 
 echo "✓ 部署完成"
-echo "  站点根目录: $SITE_ROOT"
-echo "  章节 txt:   $SITE_ROOT/红楼梦（脂本精校）/ …"
-echo "  请确认 Nginx 已配置 /content/ → alias $SITE_ROOT/"
+echo "  访问: https://read.howhy.day/"
+echo "  index.html: $(wc -c < "$SITE_ROOT/index.html") bytes"
