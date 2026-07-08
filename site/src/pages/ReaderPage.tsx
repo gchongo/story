@@ -52,6 +52,10 @@ export function ReaderPage() {
     Promise.all(tasks).finally(() => setLoading(false))
   }, [bookId, chapterId, meta, chapters])
 
+  const handleFnClick = useCallback((key: string) => {
+    setActiveFn((prev) => (prev === key ? null : key))
+  }, [])
+
   if (loading || !meta) {
     return <div className="reader-loading">正在展开书页…</div>
   }
@@ -59,10 +63,6 @@ export function ReaderPage() {
   const { blocks: originalBlocks, footnotes } = parseOriginalChapter(original)
   const vernacularBlocks = vernacular ? parseReaderContent(vernacular) : null
   const hasVernacular = !!vernacularBlocks?.length
-
-  const handleFnClick = useCallback((key: string) => {
-    setActiveFn((prev) => (prev === key ? null : key))
-  }, [])
 
   return (
     <div className={`reader-page ${!hasVernacular ? 'reader-single' : ''}`}>

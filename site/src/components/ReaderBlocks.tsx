@@ -1,4 +1,4 @@
-import { useCallback, type MouseEvent } from 'react'
+import type { MouseEvent } from 'react'
 import type { ContentBlock, FootnoteMap } from './ReaderContent'
 import { FN_KEY_RE } from './ReaderContent'
 
@@ -156,14 +156,11 @@ function InlineWithFootnotes({
 }) {
   const parts = text.split(/(\[[一二三四五六七八九十百千\d]+\])/g)
 
-  const handleClick = useCallback(
-    (e: MouseEvent, key: string) => {
-      e.preventDefault()
-      e.stopPropagation()
-      if (footnotes[key]) onFnClick(key)
-    },
-    [footnotes, onFnClick]
-  )
+  const handleClick = (e: MouseEvent, key: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (footnotes[key]) onFnClick(key)
+  }
 
   return (
     <>
