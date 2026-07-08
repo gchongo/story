@@ -25,7 +25,7 @@ export function BookshelfPage() {
     if (returning) {
       sessionStorage.removeItem(RETURN_KEY)
       setReturningId(returning)
-      const t = setTimeout(() => setReturningId(null), 1200)
+      const t = setTimeout(() => setReturningId(null), 1400)
       return () => clearTimeout(t)
     }
   }, [])

@@ -26,10 +26,10 @@ export function BookSpine({ book, index, isActive, isReturning, onSelect }: Book
           isActive
             ? { opacity: 0, scale: 0.6, y: -40, z: 120, rotateY: -30 }
             : isReturning
-              ? { opacity: [0, 1], scale: [0.7, 1.05, 1], y: [60, -8, 0], rotateY: [20, -5, 0] }
+              ? { opacity: [0, 1], scale: [0.88, 1, 1], y: [24, 0], rotateY: [8, 0, 0] }
               : { opacity: 1, scale: 1, y: 0, rotateY: 0, z: 0 }
         }
-        whileHover={!isActive ? { y: -18, rotateY: -22, z: 45, scale: 1.03 } : undefined}
+        whileHover={!isActive ? { y: -14, rotateY: -12, z: 35, scale: 1.02 } : undefined}
         transition={{
           duration: isReturning ? 1.1 : 0.45,
           delay: isReturning ? index * 0.06 : 0,

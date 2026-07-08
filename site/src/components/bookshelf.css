@@ -1,7 +1,8 @@
 .bookshelf-page {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(ellipse 120% 80% at 50% 100%, #1a0f08 0%, #0a0604 50%, #030201 100%);
 }
@@ -91,17 +92,20 @@
   align-items: center;
   padding: clamp(1rem, 3vh, 2rem) 1rem clamp(3rem, 8vh, 6rem);
   perspective: 1600px;
+  overflow: visible;
 }
 
 .bookshelf-wall {
   width: min(1200px, 96vw);
   transform-style: preserve-3d;
+  overflow: visible;
 }
 
 .bookshelf-cabinet {
   position: relative;
   transform-style: preserve-3d;
   transform: rotateX(4deg);
+  overflow: visible;
 }
 
 .shelf-crown {
@@ -128,13 +132,17 @@
 .shelf-body {
   display: flex;
   transform-style: preserve-3d;
+  overflow: visible;
 }
 
 .shelf-side {
   width: 28px;
+  flex-shrink: 0;
   background: linear-gradient(90deg, #2a1810, #4a2f1f, #3d2818);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
   border: 2px solid #5c3d28;
+  position: relative;
+  z-index: 2;
 }
 
 .shelf-side--left {
@@ -150,6 +158,9 @@
 .shelf-main {
   flex: 1;
   min-width: 0;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
 }
 
 .shelf-frame {
@@ -158,12 +169,13 @@
     linear-gradient(180deg, #5c3d28 0%, #3d2818 40%, #2a1810 100%);
   border-left: 2px solid #6b4423;
   border-right: 2px solid #6b4423;
-  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2rem) 0.6rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 4vw, 3rem) 0.6rem;
   box-shadow:
     inset 0 0 80px rgba(0, 0, 0, 0.4),
     inset 0 2px 0 rgba(255, 255, 255, 0.06),
     0 30px 80px rgba(0, 0, 0, 0.7);
   transform-style: preserve-3d;
+  overflow: visible;
 }
 
 .shelf-frame::before {
@@ -224,14 +236,17 @@
   justify-content: center;
   gap: clamp(0.8rem, 2.5vw, 2rem);
   min-height: clamp(260px, 38vh, 340px);
-  padding-bottom: 0.5rem;
+  padding: 0 1rem 0.5rem;
   transform-style: preserve-3d;
+  overflow: visible;
 }
 
 .book-slot {
   position: relative;
   transform-style: preserve-3d;
   flex-shrink: 0;
+  overflow: visible;
+  padding: 0 6px;
 }
 
 .book-spine {
@@ -240,7 +255,7 @@
   height: clamp(240px, 36vh, 300px);
   transform-style: preserve-3d;
   cursor: pointer;
-  transform-origin: bottom center;
+  transform-origin: center bottom;
 }
 
 .book-spine__pages-edge {
