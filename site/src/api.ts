@@ -1,7 +1,7 @@
 import type { Book, BookMeta, Chapter } from './types'
 
-export type { ContentBlock } from './components/ReaderContent'
-export { parseReaderContent, parseOriginalContent } from './components/ReaderContent'
+export type { ContentBlock, FootnoteMap } from './components/ReaderContent'
+export { parseReaderContent, parseOriginalContent, parseOriginalChapter, extractFootnotes } from './components/ReaderContent'
 
 const DATA = '/data'
 

@@ -7,6 +7,25 @@ export type ContentBlock =
   | { type: 'note'; content: string }
   | { type: 'yiyi'; content: string }
 
+export type FootnoteMap = Record<string, string>
+
+const FN_KEY_RE = /^\[([一二三四五六七八九十百千\d]+)\]$/
+
+/** 从章末 > 【注释】[一]…… 提取角标释义 */
+export function extractFootnotes(text: string): FootnoteMap {
+  const footnotes: FootnoteMap = {}
+  for (const line of text.split('\n')) {
+    const trimmed = line.trim().replace(/^>\s*/, '')
+    const m = trimmed.match(/^【注释】\[([一二三四五六七八九十百千\d]+)\](.*)$/)
+    if (m) footnotes[`[${m[1]}]`] = m[2].trim()
+  }
+  return footnotes
+}
+
+export function parseOriginalChapter(text: string): { blocks: ContentBlock[]; footnotes: FootnoteMap } {
+  return { blocks: parseOriginalContent(text), footnotes: extractFootnotes(text) }
+}
+
 function isMetadataLine(line: string): boolean {
   const t = line.trim()
   return (
@@ -149,7 +168,9 @@ export function parseOriginalContent(text: string): ContentBlock[] {
     }
 
     if (trimmed.startsWith('>')) {
-      blocks.push({ type: 'zhipi', content: trimmed.slice(1).trim() })
+      const content = trimmed.slice(1).trim()
+      if (content.startsWith('【注释】')) continue
+      blocks.push({ type: 'zhipi', content })
       continue
     }
 
@@ -174,17 +195,4 @@ export function parseOriginalContent(text: string): ContentBlock[] {
   return blocks
 }
 
-/** 行内批注角标 [一] [1] 等 */
-export function renderInlineText(text: string, keyPrefix: string) {
-  const parts = text.split(/(\[[一二三四五六七八九十百千\d]+\])/g)
-  return parts.map((part, i) => {
-    if (/^\[[一二三四五六七八九十百千\d]+\]$/.test(part)) {
-      return (
-        <sup key={`${keyPrefix}-fn-${i}`} className="reader-fn" title="批注">
-          {part}
-        </sup>
-      )
-    }
-    return <span key={`${keyPrefix}-t-${i}`}>{part}</span>
-  })
-}
+export { FN_KEY_RE }

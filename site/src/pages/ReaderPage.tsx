@@ -4,7 +4,7 @@ import {
   fetchBookMeta,
   fetchChapters,
   fetchChapterText,
-  parseOriginalContent,
+  parseOriginalChapter,
   parseReaderContent,
 } from '../api'
 import { ReaderBlocks } from '../components/ReaderBlocks'
@@ -54,7 +54,7 @@ export function ReaderPage() {
     return <div className="reader-loading">正在展开书页…</div>
   }
 
-  const originalBlocks = parseOriginalContent(original)
+  const { blocks: originalBlocks, footnotes } = parseOriginalChapter(original)
   const vernacularBlocks = vernacular ? parseReaderContent(vernacular) : null
   const hasVernacular = !!vernacularBlocks?.length
 
@@ -88,7 +88,7 @@ export function ReaderPage() {
       <div className={`reader-body ${hasVernacular ? 'reader-body--vernacular' : ''}`}>
         <article className="reader-panel reader-panel--original">
           <span className="reader-panel__label">原文</span>
-          <ReaderBlocks blocks={originalBlocks} variant="original" />
+          <ReaderBlocks blocks={originalBlocks} variant="original" footnotes={footnotes} />
         </article>
 
         {hasVernacular ? (
