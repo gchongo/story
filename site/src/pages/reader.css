@@ -157,6 +157,26 @@
   justify-items: center;
 }
 
+.reader-body--single-original,
+.reader-body--single-vernacular {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.reader-panel--solo {
+  width: 100%;
+  max-width: 46rem;
+  border-right: none !important;
+}
+
+.reader-page--single-original .reader-panel--solo {
+  max-width: 52rem;
+}
+
+.reader-page--single-vernacular .reader-panel--solo {
+  max-width: 46rem;
+}
+
 .reader-page--tabs .reader-body {
   grid-template-columns: 1fr;
 }

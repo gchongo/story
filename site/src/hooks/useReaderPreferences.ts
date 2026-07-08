@@ -1,22 +1,28 @@
 import { useCallback, useEffect, useState } from 'react'
 
-export type LayoutMode = 'split' | 'single'
+export type LayoutMode = 'split' | 'original' | 'vernacular'
 export type MobileTab = 'original' | 'vernacular'
 
-const STORAGE_KEY = 'reader-preferences-v1'
+const STORAGE_KEY = 'reader-preferences-v2'
 
 interface ReaderPreferences {
   layoutMode: LayoutMode
   syncScroll: boolean
 }
 
+function normalizeLayoutMode(value: unknown): LayoutMode {
+  if (value === 'original' || value === 'vernacular' || value === 'split') return value
+  if (value === 'single') return 'vernacular'
+  return 'split'
+}
+
 function loadPreferences(): ReaderPreferences {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('reader-preferences-v1')
     if (!raw) return { layoutMode: 'split', syncScroll: true }
     const parsed = JSON.parse(raw) as Partial<ReaderPreferences>
     return {
-      layoutMode: parsed.layoutMode === 'single' ? 'single' : 'split',
+      layoutMode: normalizeLayoutMode(parsed.layoutMode),
       syncScroll: parsed.syncScroll !== false,
     }
   } catch {

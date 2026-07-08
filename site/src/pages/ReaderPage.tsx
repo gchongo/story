@@ -92,10 +92,23 @@ export function ReaderPage() {
   const hasVernacular = !!vernacularBlocks?.length
 
   const showSplit = hasVernacular && !isNarrow && layoutMode === 'split'
-  const showSingle = hasVernacular && !isNarrow && layoutMode === 'single'
+  const showSingleOriginal = !isNarrow && layoutMode === 'original'
+  const showSingleVernacular = hasVernacular && !isNarrow && layoutMode === 'vernacular'
   const showTabs = hasVernacular && isNarrow
 
-  useSyncScroll(originalScrollRef, vernacularScrollRef, showSplit && syncScroll)
+  const showDualBody = showSplit || (!hasVernacular && layoutMode === 'split' && !isNarrow)
+
+  useSyncScroll(
+    originalScrollRef,
+    vernacularScrollRef,
+    showSplit && syncScroll,
+    `${chapterId}-${loading}-${original.length}-${vernacular?.length ?? 0}`,
+  )
+
+  const showOriginalPanel =
+    showSplit || showSingleOriginal || showTabs || (!hasVernacular && layoutMode !== 'vernacular')
+  const showVernacularPanel =
+    !showSingleOriginal && (showSplit || showSingleVernacular || showTabs || !hasVernacular)
 
   if (loading || !meta) {
     return <div className="reader-loading">正在展开书页…</div>
@@ -105,7 +118,7 @@ export function ReaderPage() {
     <article
       className={`reader-panel reader-panel--original ${
         showTabs && mobileTab !== 'original' ? 'reader-panel--hidden' : ''
-      }`}
+      } ${showSingleOriginal ? 'reader-panel--solo' : ''}`}
     >
       <span className="reader-panel__label">原文</span>
       <div className="reader-panel__scroll" ref={originalScrollRef}>
@@ -125,7 +138,7 @@ export function ReaderPage() {
     <article
       className={`reader-panel reader-panel--vernacular ${
         showTabs && mobileTab !== 'vernacular' ? 'reader-panel--hidden' : ''
-      }`}
+      } ${showSingleVernacular ? 'reader-panel--solo' : ''}`}
     >
       <span className="reader-panel__label">白话 · 读书记</span>
       <div className="reader-panel__scroll" ref={vernacularScrollRef}>
@@ -151,7 +164,8 @@ export function ReaderPage() {
         'reader-page',
         !hasVernacular ? 'reader-page--original-only' : '',
         showSplit ? 'reader-page--split' : '',
-        showSingle ? 'reader-page--single' : '',
+        showSingleOriginal ? 'reader-page--single-original' : '',
+        showSingleVernacular ? 'reader-page--single-vernacular' : '',
         showTabs ? 'reader-page--tabs' : '',
       ]
         .filter(Boolean)
@@ -163,30 +177,41 @@ export function ReaderPage() {
         </Link>
         <h2 className="reader-nav__title">{chapter?.title ?? `第 ${chapterId} 章`}</h2>
 
-        {hasVernacular && !isNarrow && (
+        {!isNarrow && (
           <div className="reader-nav__tools">
             <div className="reader-nav__mode" role="group" aria-label="阅读模式">
+              {hasVernacular && (
+                <button
+                  type="button"
+                  className={`reader-nav__mode-btn ${layoutMode === 'split' ? 'reader-nav__mode-btn--active' : ''}`}
+                  onClick={() => setLayoutMode('split')}
+                >
+                  双栏
+                </button>
+              )}
               <button
                 type="button"
-                className={`reader-nav__mode-btn ${layoutMode === 'split' ? 'reader-nav__mode-btn--active' : ''}`}
-                onClick={() => setLayoutMode('split')}
+                className={`reader-nav__mode-btn ${layoutMode === 'original' ? 'reader-nav__mode-btn--active' : ''}`}
+                onClick={() => setLayoutMode('original')}
               >
-                双栏
+                原文
               </button>
-              <button
-                type="button"
-                className={`reader-nav__mode-btn ${layoutMode === 'single' ? 'reader-nav__mode-btn--active' : ''}`}
-                onClick={() => setLayoutMode('single')}
-              >
-                单栏
-              </button>
+              {hasVernacular && (
+                <button
+                  type="button"
+                  className={`reader-nav__mode-btn ${layoutMode === 'vernacular' ? 'reader-nav__mode-btn--active' : ''}`}
+                  onClick={() => setLayoutMode('vernacular')}
+                >
+                  白话
+                </button>
+              )}
             </div>
-            {layoutMode === 'split' && (
+            {showSplit && (
               <button
                 type="button"
                 className={`reader-nav__sync ${syncScroll ? 'reader-nav__sync--on' : ''}`}
                 onClick={() => setSyncScroll(!syncScroll)}
-                title="两侧滚动时自动对齐相近段落"
+                title="两侧滚动时按阅读进度对齐"
               >
                 同步滚动
               </button>
@@ -237,34 +262,19 @@ export function ReaderPage() {
         </div>
       )}
 
-      {showSingle ? (
-        <div className="reader-body reader-body--single">
-          <article className="reader-panel reader-panel--single">
-            <span className="reader-panel__label">白话 · 读书记</span>
-            <details className="reader-original-foldout">
-              <summary className="reader-original-foldout__summary">展开原文对照</summary>
-              <div className="reader-original-foldout__body reader-panel--original">
-                <ReaderBlocks
-                  blocks={originalBlocks}
-                  variant="original"
-                  footnotes={footnotes}
-                  activeFn={activeFn}
-                  onFnClick={handleFnClick}
-                />
-              </div>
-            </details>
-            <div className="reader-panel__scroll reader-panel__scroll--single" ref={vernacularScrollRef}>
-              <ReaderBlocks blocks={vernacularBlocks!} variant="vernacular" />
-            </div>
-            <FootnotePopover popover={fnPopover} footnotes={footnotes} onClose={closeFnPopover} />
-          </article>
-        </div>
-      ) : (
-        <div className={`reader-body ${hasVernacular ? 'reader-body--dual' : ''}`}>
-          {originalPanel}
-          {vernacularPanel}
-        </div>
-      )}
+      <div
+        className={[
+          'reader-body',
+          showDualBody ? 'reader-body--dual' : 'reader-body--single',
+          showSingleOriginal ? 'reader-body--single-original' : '',
+          showSingleVernacular ? 'reader-body--single-vernacular' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        {showOriginalPanel && originalPanel}
+        {showVernacularPanel && vernacularPanel}
+      </div>
     </div>
   )
 }
