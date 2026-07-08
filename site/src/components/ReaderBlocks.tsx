@@ -7,7 +7,7 @@ interface Props {
   variant: 'original' | 'vernacular'
   footnotes?: FootnoteMap
   activeFn?: string | null
-  onFnClick?: (key: string) => void
+  onFnClick?: (key: string, el: HTMLElement) => void
 }
 
 export function ReaderBlocks({ blocks, variant, footnotes = {}, activeFn = null, onFnClick }: Props) {
@@ -28,31 +28,6 @@ export function ReaderBlocks({ blocks, variant, footnotes = {}, activeFn = null,
   )
 }
 
-export function FootnoteBar({
-  activeFn,
-  footnotes,
-  onClose,
-}: {
-  activeFn: string | null
-  footnotes: FootnoteMap
-  onClose: () => void
-}) {
-  if (!activeFn || !footnotes[activeFn]) return null
-
-  return (
-    <div className="reader-fn-bar" role="dialog" aria-label="脂批注释">
-      <div className="reader-fn-bar__header">
-        <span className="reader-fn-bar__id">{activeFn}</span>
-        <span className="reader-fn-bar__label">脂批注释</span>
-        <button type="button" className="reader-fn-bar__close" onClick={onClose} aria-label="关闭">
-          ×
-        </button>
-      </div>
-      <p className="reader-fn-bar__text">{footnotes[activeFn]}</p>
-    </div>
-  )
-}
-
 function ReaderBlock({
   block,
   variant,
@@ -66,7 +41,7 @@ function ReaderBlock({
   index: number
   footnotes: FootnoteMap
   activeFn: string | null
-  onFnClick?: (key: string) => void
+  onFnClick?: (key: string, el: HTMLElement) => void
 }) {
   const keyPrefix = `${variant}-${index}`
   const withFn = variant === 'original' && onFnClick && Object.keys(footnotes).length > 0
@@ -152,14 +127,14 @@ function InlineWithFootnotes({
   keyPrefix: string
   footnotes: FootnoteMap
   activeFn: string | null
-  onFnClick: (key: string) => void
+  onFnClick: (key: string, el: HTMLElement) => void
 }) {
   const parts = text.split(/(\[[一二三四五六七八九十百千\d]+\])/g)
 
-  const handleClick = (e: MouseEvent, key: string) => {
+  const handleClick = (e: MouseEvent<HTMLSpanElement>, key: string) => {
     e.preventDefault()
     e.stopPropagation()
-    if (footnotes[key]) onFnClick(key)
+    if (footnotes[key]) onFnClick(key, e.currentTarget)
   }
 
   return (
@@ -181,7 +156,7 @@ function InlineWithFootnotes({
                 ? (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault()
-                      onFnClick(part)
+                      onFnClick(part, e.currentTarget)
                     }
                   }
                 : undefined

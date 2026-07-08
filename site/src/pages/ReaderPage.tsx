@@ -7,7 +7,12 @@ import {
   parseOriginalChapter,
   parseReaderContent,
 } from '../api'
-import { ReaderBlocks, FootnoteBar } from '../components/ReaderBlocks'
+import { ReaderBlocks } from '../components/ReaderBlocks'
+import {
+  FootnotePopover,
+  calcPopoverPosition,
+  type FootnotePopoverState,
+} from '../components/FootnotePopover'
 import type { BookMeta, Chapter } from '../types'
 import './reader.css'
 
@@ -20,6 +25,7 @@ export function ReaderPage() {
   const [vernacular, setVernacular] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeFn, setActiveFn] = useState<string | null>(null)
+  const [fnPopover, setFnPopover] = useState<FootnotePopoverState | null>(null)
 
   const chapter = chapters.find((c) => c.id === chapterId)
   const chapterIndex = chapters.findIndex((c) => c.id === chapterId)
@@ -41,6 +47,7 @@ export function ReaderPage() {
 
     setLoading(true)
     setActiveFn(null)
+    setFnPopover(null)
     const tasks: Promise<void>[] = [
       fetchChapterText(meta.path, 'original', ch.filename).then(setOriginal),
     ]
@@ -52,8 +59,19 @@ export function ReaderPage() {
     Promise.all(tasks).finally(() => setLoading(false))
   }, [bookId, chapterId, meta, chapters])
 
-  const handleFnClick = useCallback((key: string) => {
-    setActiveFn((prev) => (prev === key ? null : key))
+  const handleFnClick = useCallback((key: string, el: HTMLElement) => {
+    if (fnPopover?.key === key) {
+      setActiveFn(null)
+      setFnPopover(null)
+      return
+    }
+    setActiveFn(key)
+    setFnPopover({ key, ...calcPopoverPosition(el) })
+  }, [fnPopover?.key])
+
+  const closeFnPopover = useCallback(() => {
+    setActiveFn(null)
+    setFnPopover(null)
   }, [])
 
   if (loading || !meta) {
@@ -103,7 +121,7 @@ export function ReaderPage() {
               onFnClick={handleFnClick}
             />
           </div>
-          <FootnoteBar activeFn={activeFn} footnotes={footnotes} onClose={() => setActiveFn(null)} />
+          <FootnotePopover popover={fnPopover} footnotes={footnotes} onClose={closeFnPopover} />
         </article>
 
         {hasVernacular ? (
