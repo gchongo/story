@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react'
+import type { MouseEvent, ReactNode } from 'react'
 import type { ContentBlock, FootnoteMap } from './ReaderContent'
 import { FN_KEY_RE } from './ReaderContent'
 
@@ -46,6 +46,12 @@ function ReaderBlock({
   const keyPrefix = `${variant}-${index}`
   const withFn = variant === 'original' && onFnClick && Object.keys(footnotes).length > 0
 
+  const wrap = (node: ReactNode) => (
+    <div className="reader-anchor" data-reader-anchor={index}>
+      {node}
+    </div>
+  )
+
   const renderLine = (line: string, j: number) =>
     withFn ? (
       <InlineWithFootnotes
@@ -61,25 +67,25 @@ function ReaderBlock({
 
   switch (block.type) {
     case 'heading':
-      return (
+      return wrap(
         <div
           className={`reader-block reader-block--heading ${block.level === 2 ? 'reader-block--subheading' : ''}`}
         >
           {block.content}
-        </div>
+        </div>,
       )
     case 'section':
-      return <div className="reader-block reader-block--section">{block.content}</div>
+      return wrap(<div className="reader-block reader-block--section">{block.content}</div>)
     case 'poem':
-      return (
+      return wrap(
         <div className="reader-block reader-block--poem">
           {block.content.split('\n').map((line, j) => (
             <p key={j}>{renderLine(line, j)}</p>
           ))}
-        </div>
+        </div>,
       )
     case 'zhipi':
-      return (
+      return wrap(
         <div className="reader-block reader-block--zhipi">
           {withFn ? (
             <InlineWithFootnotes
@@ -92,24 +98,24 @@ function ReaderBlock({
           ) : (
             block.content
           )}
-        </div>
+        </div>,
       )
     case 'note':
-      return <div className="reader-block reader-block--note">{block.content}</div>
+      return wrap(<div className="reader-block reader-block--note">{block.content}</div>)
     case 'yiyi':
-      return (
+      return wrap(
         <div className="reader-block reader-block--yiyi">
           <span className="reader-block--yiyi__label">白话意译</span>
           {block.content}
-        </div>
+        </div>,
       )
     case 'text':
-      return (
+      return wrap(
         <div className="reader-block reader-block--text">
           {block.content.split('\n').map((line, j) => (
             <p key={j}>{renderLine(line, j)}</p>
           ))}
-        </div>
+        </div>,
       )
     default:
       return null

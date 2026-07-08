@@ -52,6 +52,93 @@
 .reader-nav__actions {
   display: flex;
   gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.reader-nav__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.reader-nav__mode {
+  display: flex;
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.reader-nav__mode-btn {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  color: rgba(244, 234, 213, 0.55);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.reader-nav__mode-btn:hover {
+  color: var(--gold);
+  background: rgba(201, 162, 39, 0.08);
+}
+
+.reader-nav__mode-btn--active {
+  color: #1a1208;
+  background: var(--gold);
+}
+
+.reader-nav__sync {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  color: rgba(244, 234, 213, 0.45);
+  background: transparent;
+  border: 1px solid rgba(201, 162, 39, 0.18);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.reader-nav__sync:hover {
+  color: var(--gold);
+  border-color: rgba(201, 162, 39, 0.35);
+}
+
+.reader-nav__sync--on {
+  color: var(--gold);
+  border-color: rgba(201, 162, 39, 0.45);
+  background: rgba(201, 162, 39, 0.1);
+}
+
+.reader-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 1rem;
+  background: rgba(13, 10, 8, 0.92);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.12);
+  flex-shrink: 0;
+}
+
+.reader-tabs__btn {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem;
+  color: rgba(244, 234, 213, 0.45);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.reader-tabs__btn:hover {
+  color: rgba(244, 234, 213, 0.75);
+}
+
+.reader-tabs__btn--active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
 }
 
 .reader-body {
@@ -61,13 +148,34 @@
   min-height: 0;
 }
 
+.reader-body--dual {
+  grid-template-columns: 1fr 1fr;
+}
+
+.reader-body--single {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.reader-page--tabs .reader-body {
+  grid-template-columns: 1fr;
+}
+
+.reader-page--original-only .reader-body {
+  grid-template-columns: 1fr;
+}
+
+.reader-panel--hidden {
+  display: none !important;
+}
+
 @media (max-width: 900px) {
-  .reader-body {
-    grid-template-columns: 1fr;
+  .reader-nav__tools {
+    display: none;
   }
 
-  .reader-body--vernacular .reader-panel--original {
-    border-bottom: none;
+  .reader-nav__title {
+    font-size: 0.82rem;
   }
 }
 
@@ -107,17 +215,97 @@
 }
 
 .reader-panel--vernacular {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #e8e2d6 0%, #ddd6c8 100%);
+  color: #3a342e;
+}
+
+.reader-panel--vernacular .reader-panel__scroll {
+  flex: 1;
   overflow-y: auto;
-  padding: 2rem clamp(1rem, 3vw, 2.5rem) 3rem;
-  background: linear-gradient(180deg, #f7f0e3 0%, #f0e8d8 100%);
-  color: var(--ink);
+  padding: 1rem clamp(1rem, 3vw, 2.5rem) 2rem;
+  min-height: 0;
+}
+
+.reader-panel--single {
+  width: 100%;
+  max-width: 46rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #e8e2d6 0%, #ddd6c8 100%);
+  color: #3a342e;
+  min-height: 0;
+}
+
+.reader-panel--single .reader-panel__label {
+  margin: 1.5rem 1.5rem 0;
+  background: rgba(42, 36, 30, 0.07);
+  color: #5c5348;
+  border: 1px solid rgba(42, 36, 30, 0.1);
+}
+
+.reader-panel__scroll--single {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem clamp(1rem, 3vw, 2.5rem) 2.5rem;
+  min-height: 0;
+}
+
+.reader-original-foldout {
+  margin: 1rem 1.5rem 0;
+  border-radius: 8px;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.reader-original-foldout__summary {
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  color: var(--gold);
+  background: rgba(30, 22, 16, 0.85);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  letter-spacing: 0.08em;
+}
+
+.reader-original-foldout__summary::-webkit-details-marker {
+  display: none;
+}
+
+.reader-original-foldout__summary::before {
+  content: '▸ ';
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.reader-original-foldout[open] .reader-original-foldout__summary::before {
+  transform: rotate(90deg);
+}
+
+.reader-original-foldout__body {
+  max-height: min(42vh, 360px);
+  overflow-y: auto;
+  padding: 1rem clamp(1rem, 3vw, 2rem) 1.25rem;
+  background: linear-gradient(180deg, #1e1610 0%, #16110d 100%);
+  color: rgba(244, 234, 213, 0.88);
+  line-height: 2;
+  font-size: 0.95rem;
+}
+
+.reader-original-foldout__body.reader-panel--original {
+  border-right: none;
 }
 
 .reader-panel--vernacular .reader-panel__label {
-  margin: 0 0 1.5rem;
-  background: rgba(28, 20, 16, 0.08);
-  color: var(--ink-light);
-  border: 1px solid rgba(28, 20, 16, 0.12);
+  margin: 1.5rem 1.5rem 0;
+  background: rgba(42, 36, 30, 0.07);
+  color: #5c5348;
+  border: 1px solid rgba(42, 36, 30, 0.1);
 }
 
 .reader-panel--original .reader-panel__label {
@@ -149,7 +337,7 @@
 }
 
 .reader-panel--vernacular .reader-block--subheading {
-  color: #5d4037;
+  color: #6d5d52;
 }
 
 .reader-block--section {
@@ -162,7 +350,7 @@
 }
 
 .reader-panel--vernacular .reader-block--section {
-  color: #8d6e63;
+  color: #7a6a5c;
 }
 
 .reader-block--text p {
@@ -336,11 +524,11 @@
 .reader-block--yiyi {
   margin: 0.8rem 0 1rem;
   padding: 0.7rem 1rem;
-  background: rgba(139, 110, 99, 0.1);
+  background: rgba(109, 93, 82, 0.1);
   border-radius: 6px;
-  border-left: 3px solid #a1887f;
+  border-left: 3px solid #a89888;
   font-size: 0.92rem;
-  color: #4e342e;
+  color: #4a4238;
   text-indent: 0;
   line-height: 1.9;
 }
@@ -349,7 +537,7 @@
   display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #8d6e63;
+  color: #7a6a5c;
   margin-right: 0.5rem;
   letter-spacing: 0.1em;
 }
@@ -359,7 +547,13 @@
 }
 
 .reader-panel--vernacular .reader-block--heading {
-  color: var(--ink);
+  color: #3a342e;
+}
+
+.reader-panel--vernacular .reader-block--note {
+  background: rgba(76, 121, 175, 0.08);
+  border-color: rgba(76, 121, 175, 0.2);
+  color: #4a6280;
 }
 
 .reader-block--poem {
@@ -381,9 +575,9 @@
 }
 
 .reader-panel--vernacular .reader-block--zhipi {
-  border-left-color: #8d6e63;
-  background: rgba(141, 110, 99, 0.08);
-  color: #5d4037;
+  border-left-color: #9a8a7a;
+  background: rgba(109, 93, 82, 0.08);
+  color: #5a5048;
 }
 
 .reader-block--note {
@@ -409,7 +603,7 @@
   justify-content: center;
   height: 100%;
   min-height: 300px;
-  color: rgba(28, 20, 16, 0.4);
+  color: rgba(58, 52, 46, 0.45);
   gap: 0.5rem;
 }
 
@@ -426,6 +620,6 @@
   color: rgba(244, 234, 213, 0.5);
 }
 
-.reader-single .reader-panel--original {
+.reader-page--original-only .reader-panel--original {
   border-right: none;
 }
