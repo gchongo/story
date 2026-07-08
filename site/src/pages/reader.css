@@ -114,9 +114,85 @@
 
 .reader-block--heading {
   font-family: 'Ma Shan Zheng', cursive;
-  font-size: 1.4rem;
-  margin: 1.5rem 0 1rem;
+  font-size: 1.5rem;
+  margin: 1.2rem 0 1rem;
   text-align: center;
+}
+
+.reader-block--subheading {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: left;
+  margin: 1.8rem 0 0.8rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.reader-panel--original .reader-block--subheading {
+  color: var(--gold);
+  border-bottom-color: rgba(201, 162, 39, 0.2);
+}
+
+.reader-panel--vernacular .reader-block--subheading {
+  color: #5d4037;
+}
+
+.reader-block--section {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 1.5rem 0 0.6rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.3em;
+}
+
+.reader-panel--vernacular .reader-block--section {
+  color: #8d6e63;
+}
+
+.reader-block--text p {
+  text-indent: 2em;
+  margin: 0 0 0.5rem;
+}
+
+.reader-block--text {
+  margin-bottom: 0.6rem;
+}
+
+.reader-fn {
+  font-size: 0.72em;
+  color: var(--gold);
+  margin: 0 1px;
+  font-weight: 600;
+  cursor: help;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.reader-panel--vernacular .reader-fn {
+  color: #b8860b;
+}
+
+.reader-block--yiyi {
+  margin: 0.8rem 0 1rem;
+  padding: 0.7rem 1rem;
+  background: rgba(139, 110, 99, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #a1887f;
+  font-size: 0.92rem;
+  color: #4e342e;
+  text-indent: 0;
+  line-height: 1.9;
+}
+
+.reader-block--yiyi__label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8d6e63;
+  margin-right: 0.5rem;
+  letter-spacing: 0.1em;
 }
 
 .reader-panel--original .reader-block--heading {
@@ -125,11 +201,6 @@
 
 .reader-panel--vernacular .reader-block--heading {
   color: var(--ink);
-}
-
-.reader-block--text {
-  text-indent: 2em;
-  margin-bottom: 0.6rem;
 }
 
 .reader-block--poem {
@@ -168,7 +239,7 @@
 }
 
 .reader-block--note::before {
-  content: '📖 读书记 · ';
+  content: '📖 ';
   font-weight: 600;
 }
 

@@ -7,6 +7,7 @@ import {
   parseOriginalContent,
   parseReaderContent,
 } from '../api'
+import { ReaderBlocks } from '../components/ReaderBlocks'
 import type { BookMeta, Chapter } from '../types'
 import './reader.css'
 
@@ -55,7 +56,7 @@ export function ReaderPage() {
 
   const originalBlocks = parseOriginalContent(original)
   const vernacularBlocks = vernacular ? parseReaderContent(vernacular) : null
-  const hasVernacular = !!vernacularBlocks
+  const hasVernacular = !!vernacularBlocks?.length
 
   return (
     <div className={`reader-page ${!hasVernacular ? 'reader-single' : ''}`}>
@@ -87,31 +88,13 @@ export function ReaderPage() {
       <div className={`reader-body ${hasVernacular ? 'reader-body--vernacular' : ''}`}>
         <article className="reader-panel reader-panel--original">
           <span className="reader-panel__label">原文</span>
-          {originalBlocks.map((block, i) => (
-            <div key={i} className={`reader-block reader-block--${block.type}`}>
-              {block.content.split('\n').map((line, j) => (
-                <p key={j} style={block.type === 'text' ? { textIndent: '2em', margin: 0 } : undefined}>
-                  {line}
-                </p>
-              ))}
-            </div>
-          ))}
+          <ReaderBlocks blocks={originalBlocks} variant="original" />
         </article>
 
         {hasVernacular ? (
           <article className="reader-panel reader-panel--vernacular">
             <span className="reader-panel__label">白话 · 读书记</span>
-            {vernacularBlocks!.map((block, i) => (
-              <div key={i} className={`reader-block reader-block--${block.type}`}>
-                {block.type === 'text' || block.type === 'heading'
-                  ? block.content.split('\n').map((line, j) => (
-                      <p key={j} style={block.type === 'text' ? { textIndent: '2em', margin: 0 } : undefined}>
-                        {line}
-                      </p>
-                    ))
-                  : block.content}
-              </div>
-            ))}
+            <ReaderBlocks blocks={vernacularBlocks!} variant="vernacular" />
           </article>
         ) : (
           <article className="reader-panel reader-panel--vernacular">
