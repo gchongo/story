@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   fetchBookMeta,
@@ -7,7 +7,7 @@ import {
   parseOriginalChapter,
   parseReaderContent,
 } from '../api'
-import { ReaderBlocks } from '../components/ReaderBlocks'
+import { ReaderBlocks, FootnoteBar } from '../components/ReaderBlocks'
 import type { BookMeta, Chapter } from '../types'
 import './reader.css'
 
@@ -19,6 +19,7 @@ export function ReaderPage() {
   const [original, setOriginal] = useState('')
   const [vernacular, setVernacular] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activeFn, setActiveFn] = useState<string | null>(null)
 
   const chapter = chapters.find((c) => c.id === chapterId)
   const chapterIndex = chapters.findIndex((c) => c.id === chapterId)
@@ -39,6 +40,7 @@ export function ReaderPage() {
     if (!ch) return
 
     setLoading(true)
+    setActiveFn(null)
     const tasks: Promise<void>[] = [
       fetchChapterText(meta.path, 'original', ch.filename).then(setOriginal),
     ]
@@ -57,6 +59,10 @@ export function ReaderPage() {
   const { blocks: originalBlocks, footnotes } = parseOriginalChapter(original)
   const vernacularBlocks = vernacular ? parseReaderContent(vernacular) : null
   const hasVernacular = !!vernacularBlocks?.length
+
+  const handleFnClick = useCallback((key: string) => {
+    setActiveFn((prev) => (prev === key ? null : key))
+  }, [])
 
   return (
     <div className={`reader-page ${!hasVernacular ? 'reader-single' : ''}`}>
@@ -88,7 +94,16 @@ export function ReaderPage() {
       <div className={`reader-body ${hasVernacular ? 'reader-body--vernacular' : ''}`}>
         <article className="reader-panel reader-panel--original">
           <span className="reader-panel__label">原文</span>
-          <ReaderBlocks blocks={originalBlocks} variant="original" footnotes={footnotes} />
+          <div className="reader-panel__scroll">
+            <ReaderBlocks
+              blocks={originalBlocks}
+              variant="original"
+              footnotes={footnotes}
+              activeFn={activeFn}
+              onFnClick={handleFnClick}
+            />
+          </div>
+          <FootnoteBar activeFn={activeFn} footnotes={footnotes} onClose={() => setActiveFn(null)} />
         </article>
 
         {hasVernacular ? (

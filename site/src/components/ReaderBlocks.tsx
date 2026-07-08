@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, type MouseEvent } from 'react'
 import type { ContentBlock, FootnoteMap } from './ReaderContent'
 import { FN_KEY_RE } from './ReaderContent'
 
@@ -6,18 +6,11 @@ interface Props {
   blocks: ContentBlock[]
   variant: 'original' | 'vernacular'
   footnotes?: FootnoteMap
+  activeFn?: string | null
+  onFnClick?: (key: string) => void
 }
 
-export function ReaderBlocks({ blocks, variant, footnotes = {} }: Props) {
-  const [activeFn, setActiveFn] = useState<string | null>(null)
-
-  const handleFnClick = useCallback((key: string) => {
-    if (!footnotes[key]) return
-    setActiveFn((prev) => (prev === key ? null : key))
-  }, [footnotes])
-
-  const closeFn = useCallback(() => setActiveFn(null), [])
-
+export function ReaderBlocks({ blocks, variant, footnotes = {}, activeFn = null, onFnClick }: Props) {
   return (
     <>
       {blocks.map((block, i) => (
@@ -28,23 +21,35 @@ export function ReaderBlocks({ blocks, variant, footnotes = {} }: Props) {
           index={i}
           footnotes={footnotes}
           activeFn={activeFn}
-          onFnClick={handleFnClick}
+          onFnClick={onFnClick}
         />
       ))}
-
-      {variant === 'original' && activeFn && footnotes[activeFn] && (
-        <div className="reader-fn-bar" role="dialog" aria-label="脂批注释">
-          <div className="reader-fn-bar__header">
-            <span className="reader-fn-bar__id">{activeFn}</span>
-            <span className="reader-fn-bar__label">脂批注释</span>
-            <button type="button" className="reader-fn-bar__close" onClick={closeFn} aria-label="关闭">
-              ×
-            </button>
-          </div>
-          <p className="reader-fn-bar__text">{footnotes[activeFn]}</p>
-        </div>
-      )}
     </>
+  )
+}
+
+export function FootnoteBar({
+  activeFn,
+  footnotes,
+  onClose,
+}: {
+  activeFn: string | null
+  footnotes: FootnoteMap
+  onClose: () => void
+}) {
+  if (!activeFn || !footnotes[activeFn]) return null
+
+  return (
+    <div className="reader-fn-bar" role="dialog" aria-label="脂批注释">
+      <div className="reader-fn-bar__header">
+        <span className="reader-fn-bar__id">{activeFn}</span>
+        <span className="reader-fn-bar__label">脂批注释</span>
+        <button type="button" className="reader-fn-bar__close" onClick={onClose} aria-label="关闭">
+          ×
+        </button>
+      </div>
+      <p className="reader-fn-bar__text">{footnotes[activeFn]}</p>
+    </div>
   )
 }
 
@@ -61,10 +66,10 @@ function ReaderBlock({
   index: number
   footnotes: FootnoteMap
   activeFn: string | null
-  onFnClick: (key: string) => void
+  onFnClick?: (key: string) => void
 }) {
   const keyPrefix = `${variant}-${index}`
-  const withFn = variant === 'original' && Object.keys(footnotes).length > 0
+  const withFn = variant === 'original' && onFnClick && Object.keys(footnotes).length > 0
 
   const renderLine = (line: string, j: number) =>
     withFn ? (
@@ -150,6 +155,16 @@ function InlineWithFootnotes({
   onFnClick: (key: string) => void
 }) {
   const parts = text.split(/(\[[一二三四五六七八九十百千\d]+\])/g)
+
+  const handleClick = useCallback(
+    (e: MouseEvent, key: string) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (footnotes[key]) onFnClick(key)
+    },
+    [footnotes, onFnClick]
+  )
+
   return (
     <>
       {parts.map((part, i) => {
@@ -158,18 +173,26 @@ function InlineWithFootnotes({
         }
         const hasNote = !!footnotes[part]
         return (
-          <sup key={`${keyPrefix}-fn-${i}`}>
-            <button
-              type="button"
-              className={`reader-fn ${hasNote ? 'reader-fn--clickable' : 'reader-fn--empty'} ${activeFn === part ? 'reader-fn--active' : ''}`}
-              onClick={() => onFnClick(part)}
-              disabled={!hasNote}
-              title={hasNote ? '点击查看脂批注释' : '暂无注释'}
-              aria-label={hasNote ? `查看注释 ${part}` : part}
-            >
-              {part}
-            </button>
-          </sup>
+          <span
+            key={`${keyPrefix}-fn-${i}`}
+            role={hasNote ? 'button' : undefined}
+            tabIndex={hasNote ? 0 : undefined}
+            className={`reader-fn ${hasNote ? 'reader-fn--clickable' : 'reader-fn--empty'} ${activeFn === part ? 'reader-fn--active' : ''}`}
+            onClick={hasNote ? (e) => handleClick(e, part) : undefined}
+            onKeyDown={
+              hasNote
+                ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onFnClick(part)
+                    }
+                  }
+                : undefined
+            }
+            title={hasNote ? '点击查看脂批注释' : '暂无注释'}
+          >
+            {part}
+          </span>
         )
       })}
     </>
